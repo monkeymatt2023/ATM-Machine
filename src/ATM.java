@@ -44,12 +44,18 @@ public class ATM {
 	public boolean depositMoney(int num, double dep) {
 		if (!accounts.containsKey(num))
 			return false;
+		if (dep < 0)
+			return false;
 		accounts.put(num, accounts.get(num) + dep);
 		return true;
 	}
 	
 	public boolean withdrawMoney(int num, double wd) {
 		if (!accounts.containsKey(num))
+			return false;
+		if (wd < 0)
+			return false;
+		if (wd > accounts.get(num))
 			return false;
 		accounts.put(num, accounts.get(num) - wd);
 		return true;
