@@ -1,21 +1,34 @@
 
 import java.util.*;
+import java.text.DecimalFormat;
 
 public class ATM {
 	
 	private static HashMap<Integer, Double> accounts;
 //	private static double balance;
+	private static final DecimalFormat df = new DecimalFormat("0.00");
 	
 	public static void main (String[]args) {
 		ATM machine = new ATM();
 		machine.openAccount(8);
-		machine.openAccount(1, 10.0);
-		System.out.println(machine.checkBalance(8));
-		System.out.println(machine.checkBalance(1));
-		machine.depositMoney(8, 100.0);
-		machine.withdrawMoney(1, 2.0);
-		System.out.println(machine.checkBalance(8));
-		System.out.println(machine.checkBalance(1));
+		machine.openAccount(1, 10.00);
+		System.out.println(machine.checkBalance(8)); //0.0
+		System.out.println(machine.checkBalance(1)); //10.00
+		machine.depositMoney(8, 100.00);
+		machine.depositMoney(1, 69.69);
+		System.out.println(machine.checkBalance(8)); //100.00
+		System.out.println(machine.checkBalance(1)); //79.69
+		machine.withdrawMoney(8, 99.00);
+		machine.withdrawMoney(8, 0.99);
+		System.out.println(machine.checkBalance(8)); //0.01
+		machine.depositMoney(8, -100.00);
+		System.out.println(machine.checkBalance(8)); //0.01
+		machine.withdrawMoney(8, -100.00);
+		machine.withdrawMoney(8, 6969.69);
+		System.out.println(machine.checkBalance(8)); //0.01
+		machine.depositMoney(5, 5.00);
+		machine.withdrawMoney(5, 5.00);
+		System.out.println(machine.checkBalance(5)); //0.00
 	}
 	
 	public ATM() {
@@ -38,7 +51,8 @@ public class ATM {
 	public double checkBalance(int num) {
 		if (!accounts.containsKey(num))
 			return 0.0;
-		return accounts.get(num);
+		String decimal = df.format(accounts.get(num));
+		return Double.parseDouble(decimal);
 	}
 	
 	public boolean depositMoney(int num, double dep) {
